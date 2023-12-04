@@ -22,12 +22,6 @@
 
 (= { :id 1 :values [{"blue" 3 "red" 4}, {"red" 1 "green" 2 "blue" 6}, {"green" 2}]} (parse-line "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green"))
 
-;[{"blue" 3 "red" 4}, {"red" 1 "green" 2 "blue" 6}]
-(defn process-game [values] (reduce (fn [total val] (merge-with max total val)) {"red" 0 "green" 0 "blue" 0} values))
-
-(= {"blue" 9 "red" 5 "green" 2} (process-game [{"blue" 3 "red" 4}, {"red" 1 "green" 2 "blue" 6}]))
-
-
 ;{"blue" 3 "red" 4}
 (defn valid-game [game-vals] (and
                                (<= (get game-vals "blue" 0) 14)
@@ -48,4 +42,14 @@
                    games))
 (def valid-ids (map #(:id %) valid-games))
 
+; Add up the valid ids to produce the first answer
 (reduce + valid-ids)
+
+
+; Day 2 question
+
+;[{"blue" 3 "red" 4}, {"red" 1 "green" 2 "blue" 6}]
+(defn process-game-vals [values] (reduce (fn [total val] (merge-with max total val)) {"red" 0 "green" 0 "blue" 0} values))
+(= {"blue" 6 "red" 4 "green" 2} (process-game-vals [{"blue" 3 "red" 4}, {"red" 1 "green" 2 "blue" 6}]))
+(def max-cubes-games (map (fn [{id :id values :values}] (process-game-vals values)) games))
+(reduce + 0 (map #(apply * (vals %)) max-cubes-games))
