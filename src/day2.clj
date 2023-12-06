@@ -46,7 +46,7 @@
 (reduce + valid-ids)
 
 
-; Day 2 question
+; Day 2 Second part of question
 
 ;[{"blue" 3 "red" 4}, {"red" 1 "green" 2 "blue" 6}]
 (defn process-game-vals [values] (reduce (fn [total val] (merge-with max total val)) {"red" 0 "green" 0 "blue" 0} values))
